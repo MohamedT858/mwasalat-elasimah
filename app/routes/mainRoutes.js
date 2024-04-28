@@ -3,7 +3,8 @@ import {
 	Home,
 	ElectricTrainsList,
 	Splash,
-	Articles
+	Articles,
+	RouteDetails
 } from '../screens';
 import TabItem from '../components/TabItem';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -18,29 +19,31 @@ const tabItems = [
 		route: 'Home',
 		label: 'Home',
 		component: Home,
-		icon: 'home',
-		iconFocused: 'home-outline'
+		iconFocused: 'home',
+		icon: 'home-outline'
 	},
 	{
 		route: 'CompaniesList',
 		label: 'Bus Lines',
 		component: CompaniesList,
-		icon: 'bus',
-		iconFocused: 'bus-outline'
+		iconFocused: 'bus',
+		icon: 'bus-outline'
 	},
 	{
 		route: 'ElectricTrainsList',
 		label: 'Electric Trains',
 		component: ElectricTrainsList,
-		icon: 'train',
-		iconFocused: 'train-outline'
+		iconFocused: 'train',
+		icon: 'train-outline',
+		disabled: true
 	},
 	{
 		route: 'Articles',
 		label: 'Articles',
 		component: Articles,
-		icon: 'newspaper',
-		iconFocused: 'newspaper-outline'
+		iconFocused: 'newspaper',
+		icon: 'newspaper-outline',
+		disabled: true
 	}
 ];
 
@@ -67,7 +70,7 @@ function BottomNavigationBar() {
 					},
 					elevation: 3,
 					borderWidth: 1,
-					borderColor: '#e4e4f7',
+					borderColor: '#656c9e30',
 					alignItems: 'space-between',
 				},
 			}}>
@@ -88,6 +91,18 @@ function BottomNavigationBar() {
 	);
 }
 
+function RouteDetailsScreen() {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen
+				name="RouteDetails"
+				component={RouteDetails}
+				options={{ headerShown: false }}
+			/>
+		</Stack.Navigator>
+	);
+}
+
 export default function TabNavigator() {
 	return (
 		<Stack.Navigator>
@@ -99,6 +114,11 @@ export default function TabNavigator() {
 			<Stack.Screen
 				name="BottomNavigationBar"
 				component={BottomNavigationBar}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="RouteDetailsScreen"
+				component={RouteDetailsScreen}
 				options={{ headerShown: false }}
 			/>
 		</Stack.Navigator>

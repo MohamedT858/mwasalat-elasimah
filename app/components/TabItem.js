@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, Text, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default TabBarItem = props => {
 
+	const navigation = useNavigation();
 	const { item, accessibilityState } = props;
 
 	const focused = accessibilityState.selected;
 
 	const [animation] = useState(new Animated.Value(focused ? 1 : 0));
-
 	useEffect(() => {
 		Animated.timing(animation, {
 			toValue: focused ? 1 : 0,
@@ -21,7 +21,7 @@ export default TabBarItem = props => {
 
 	const backgroundColor = animation.interpolate({
 		inputRange: [0, 1],
-		outputRange: ['white', '#e4e4f7'],
+		outputRange: ['white', '#656c9e30'],
 	});
 
 	const paddingHorizontal = animation.interpolate({
@@ -36,9 +36,10 @@ export default TabBarItem = props => {
 				alignItems: 'center',
 				justifyContent: 'center',
 				height: '100%',
+				opacity: item.disabled ? .5 : 1
 			}}>
 			<TouchableOpacity
-				{...props}
+				onPress={item.disabled ? () => { } : () => navigation.navigate(item.route)}
 				style={{
 					alignItems: 'center',
 					justifyContent: 'center',
@@ -46,10 +47,11 @@ export default TabBarItem = props => {
 				}}>
 				<Animated.View
 					style={{
-						marginBottom: 5,
+						marginBottom: 2,
 						backgroundColor,
 						borderRadius: 50,
 						paddingHorizontal,
+						paddingVertical: 3,
 					}}
 				>
 					<Icon
