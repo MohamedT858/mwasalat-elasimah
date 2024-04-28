@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView, FlatList, TouchableOpacity, LinearGradient } from "react-native";
+import { View, Text, Image, ScrollView, FlatList, TouchableOpacity, LinearGradient, Linking } from "react-native";
 import React from "react";
 import Octicons from 'react-native-vector-icons/Octicons'; //for the "location" icon 
 import { useNavigation } from '@react-navigation/native';
@@ -91,18 +91,19 @@ const RouteDetails = ({ route }) => {
 					borderRadius: 10,
 					backgroundColor: "#f6f6f6",
 					flexDirection: "column",
-					justifyContent: "space-between",
 					alignItems: "center",
 					width: "100%"
 				}}>
 					{companyDetails.contacts.map((contact, index) => {
 						return (
-							<View style={{ flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between" }}>
-								<Text key={index} style={{ fontSize: 14, fontFamily: 'Almarai-Light' }}>{contact.name} - {contact.phone}</Text>
+							<View style={{
+								flexDirection: "row-reverse", alignItems: "center", justifyContent: "space-between", width: "100%", marginVertical: 5,
+							}}>
+								<Text key={index} style={{ fontSize: 16, fontFamily: 'Almarai-Light' }}>{contact.name} - {contact.phone}</Text>
 								<TouchableOpacity style={{
 									padding: 5,
-									borderRadius: 50,
-									backgroundColor: "#f6f6f6",
+									borderRadius: 8,
+									backgroundColor: "#fff",
 									flexDirection: "column",
 									alignItems: "center",
 									justifyContent: "center",
@@ -115,15 +116,12 @@ const RouteDetails = ({ route }) => {
 									<Feather name="phone" size={20} color="#000" />
 								</TouchableOpacity>
 							</View>
-
-
 						);
 					})}
 				</View>
 			)}
 
 			{/* route details */}
-
 			<Text style={{
 				fontSize: 20,
 				fontFamily: 'Almarai-Bold',
@@ -134,27 +132,34 @@ const RouteDetails = ({ route }) => {
 			<FlatList
 				data={routeDetails.busStops}
 				renderItem={({ item }) => (
-					<View style={{
-						padding: 10,
-						marginBottom: 10,
-						borderRadius: 10,
-						backgroundColor: "#f6f6f6",
-						flexDirection: "row-reverse",
-						justifyContent: "space-between",
-						alignItems: "center",
-						width: "100%"
-					}}>
+					<View>
 						<View style={{
+							padding: 10,
+							marginBottom: 10,
+							borderRadius: 10,
+							backgroundColor: "#f6f6f6",
 							flexDirection: "row-reverse",
+							justifyContent: "space-between",
 							alignItems: "center",
 						}}>
-							<Octicons name="location" size={30} color="#000" />
 							<View style={{
-								marginHorizontal: 10,
+								flexDirection: "row-reverse",
+								alignItems: "center",
 							}}>
-								<Text style={{ fontSize: 18, fontFamily: 'Almarai-Bold' }}>{item.name}</Text>
+								<Octicons name="location" size={20} color="#000" />
+								<View style={{
+									marginHorizontal: 10,
+								}}>
+									<Text style={{ fontSize: 14, fontFamily: 'Almarai-Bold' }}>{item.name}</Text>
+								</View>
 							</View>
 						</View>
+						{company.busRoutes.length - 1 !== index
+							&& <View style={{
+								height: 1,
+								borderBottomWidth: 2,
+								borderBottomColor: "#fff",
+							}} />}
 					</View>
 				)}
 				keyExtractor={item => item.id}
