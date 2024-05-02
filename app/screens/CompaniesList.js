@@ -1,9 +1,10 @@
 import {
-	View, Text, Image, ScrollView, FlatList, TouchableOpacity, LinearGradient
+	View, Text, Image, ScrollView, FlatList, TouchableOpacity, LinearGradient, Linking, TextInput
 } from "react-native";
 import React from "react";
 import companiesList from "../data/busRoutes.json"
 import CompanyCard from "../components/CompanyCard";
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 // an example of the data json object:
 // {
@@ -382,6 +383,64 @@ const CompaniesList = () => {
 			</View>
 
 			{/* SearchBar */}
+
+			<View style={{
+				flexDirection: "row-reverse",
+				alignItems: "center",
+				justifyContent: "space-between",
+				marginBottom: 10
+			}}>
+				<View style={{
+					flexDirection: "row",
+					alignItems: "center",
+					backgroundColor: "#f6f6f6",
+					borderRadius: 10,
+					paddingHorizontal: 10,
+					paddingVertical: 5,
+					flex: 1,
+					marginLeft: 10
+				}}>
+					<TextInput placeholder=" ابحث عن خط او محطة ..." style={{
+						flex: 1,
+						fontSize: 16,
+						fontFamily: 'Almarai-Light',
+						textAlign: "right"
+					}}
+						onChange={(text) => {
+							console.log(text);
+						}}
+					/>
+					<AntDesign name="search1" size={24} color="#656c9e" style={{ marginVertical: 5, marginLeft: 10 }} />
+				</View>
+				<TouchableOpacity style={{
+					backgroundColor: "#f6f6f6",
+					borderRadius: 10,
+					padding: 10
+				}}
+					onPress={() => {
+						console.log("Search Button Pressed");
+					}}
+				>
+					<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light' }}>بحث</Text>
+				</TouchableOpacity>
+
+				{/* Selection List */}
+			</View>
+
+			<View style={{
+				flexDirection: "row-reverse",
+				alignItems: "center",
+				justifyContent: "space-between",
+				backgroundColor: "#f6f6f6",
+				borderRadius: 10,
+				paddingHorizontal: 10,
+				paddingVertical: 5,
+				marginBottom: 10
+			}}>
+				<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light' }}>الشركات</Text>
+				<AntDesign name="down" size={18} color="#656c9e" style={{ marginVertical: 5, marginLeft: 10 }} />
+			</View>
+
 
 
 			{/* Companies List */}

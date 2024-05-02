@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const RouteDetails = ({ route }) => {
 	const navigation = useNavigation();
@@ -130,12 +131,19 @@ const RouteDetails = ({ route }) => {
 				تفاصيل خط {routeDetails.routeName}
 			</Text>
 			<FlatList
+				style={{
+					marginVertical: 10,
+				}}
 				data={routeDetails.busStops}
-				renderItem={({ item }) => (
-					<View>
+				renderItem={({ item, index }) => (
+					<View style={{
+						flexDirection: "column",
+						alignItems: "flex-end",
+						width: "100%",
+					}}>
 						<View style={{
 							padding: 10,
-							marginBottom: 10,
+							margin: 5,
 							borderRadius: 10,
 							backgroundColor: "#f6f6f6",
 							flexDirection: "row-reverse",
@@ -154,12 +162,12 @@ const RouteDetails = ({ route }) => {
 								</View>
 							</View>
 						</View>
-						{company.busRoutes.length - 1 !== index
-							&& <View style={{
-								height: 1,
-								borderBottomWidth: 2,
-								borderBottomColor: "#fff",
-							}} />}
+						{routeDetails.busStops?.length - 1 !== index
+							&&
+							<MaterialIcons name="keyboard-double-arrow-down" size={30} color="#000" style={{
+								marginHorizontal: 30
+							}} />
+						}
 					</View>
 				)}
 				keyExtractor={item => item.id}

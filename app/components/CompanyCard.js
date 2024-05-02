@@ -50,11 +50,11 @@ export default CompanyCard = props => {
 						<Text style={{ fontSize: 20, fontFamily: 'Almarai-Bold' }}>{company.name}</Text>
 						{company.contacts.map((contact, index) => {
 							return index < 2 ? (
-								<Text key={index} style={{ fontSize: 14, fontFamily: 'Almarai-Light' }}>{contact.name} - {contact.phone}</Text>
+								<Text key={index} style={{ marginHorizontal: 7, fontSize: 14, fontFamily: 'Almarai-Light' }}>{contact.name} - {contact.phone}</Text>
 							) : null;
 						})}
 						{
-							company.contacts.length > 2 ? <Text style={{ fontSize: 14, fontFamily: 'Almarai-Light' }}>{' '}و{' '}{company.contacts.length - 2} اخرين</Text> : null
+							company.contacts.length > 2 ? <Text style={{ marginHorizontal: 7, fontSize: 14, fontFamily: 'Almarai-Light' }}>{' '}و{' '}{company.contacts.length - 2} اخرين</Text> : null
 						}
 					</View>
 				</View>
@@ -119,6 +119,7 @@ export default CompanyCard = props => {
 										height: 1,
 										borderBottomWidth: 2,
 										borderBottomColor: "#fff",
+										marginHorizontal: 30,
 									}} />}
 							</View>
 						);
