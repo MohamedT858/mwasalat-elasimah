@@ -16,7 +16,6 @@ const RouteDetails = ({ route }) => {
 	return (
 		<View style={{
 			paddingHorizontal: 20,
-			paddingTop: 55,
 			flex: 1,
 			backgroundColor: "#fff",
 		}}>

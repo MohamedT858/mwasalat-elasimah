@@ -79,7 +79,6 @@ const CompaniesList = () => {
 	return (
 		<View style={{
 			paddingHorizontal: 20,
-			paddingTop: 50,
 			marginBottom: 60,
 			flex: 1,
 			backgroundColor: "#fff",
@@ -230,7 +229,6 @@ const CompaniesList = () => {
 					</View>
 				}
 			</View>
-
 
 			<View style={{
 				flexDirection: "row-reverse",

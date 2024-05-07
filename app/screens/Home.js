@@ -18,7 +18,6 @@ const Home = () => {
 				backgroundColor: "#f5f5f5",
 				padding: 15,
 				marginBottom: 20,
-				marginTop: 60,
 				borderRadius: 10,
 				flexDirection: "row-reverse",
 				alignItems: "center"
