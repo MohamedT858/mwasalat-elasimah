@@ -1,367 +1,80 @@
 import {
-	View, Text, Image, ScrollView, FlatList, TouchableOpacity, LinearGradient, Linking, TextInput
+	View, Text, Modal, ScrollView, FlatList, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import companiesList from "../data/busRoutes.json"
 import CompanyCard from "../components/CompanyCard";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-// an example of the data json object:
-// {
-//   "transportationCompanies": [
-//     {
-//       "id": 1,
-//       "name": "ستار لاين",
-//       "logo": "https://scontent.fcai19-7.fna.fbcdn.net/v/t39.30808-6/302074551_394334589516872_521561319373952568_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=NMufPI6pNecAX9yNYwz&_nc_ht=scontent.fcai19-7.fna&cb_e2o_trans=q&oh=00_AfAFy-fuLJFH0adqf-2klGE3ZdK-sGRwZ5_OP6dbJ1Z6IQ&oe=660DB9BF",
-//       "contacts": [
-//         {
-//           "id": 1,
-//           "name": "أ/ أحمد فايز",
-//           "phone": "01022243145"
-//         }
-//       ],
-//       "busRoutes": [
-//         {
-//           "id": 1,
-//           "routeName": "الهرم",
-//           "busStops": [
-//             {
-//               "id": 1,
-//               "name": "الطريق الدائري"
-//             },
-//             {
-//               "id": 2,
-//               "name": "ط العين السخنة"
-//             },
-//             {
-//               "id": 3,
-//               "name": "الدائري الاقليمي"
-//             },
-//             {
-//               "id": 4,
-//               "name": "العاصمة"
-//             }
-//           ]
-//         },
-//         {
-//           "id": 2,
-//           "routeName": "6 أكتوبر",
-//           "busStops": [
-//             {
-//               "id": 1,
-//               "name": "ميدان الحصري"
-//             },
-//             {
-//               "id": 2,
-//               "name": "جهاز ٦ أكتوبر"
-//             },
-//             {
-//               "id": 3,
-//               "name": "مجلس أمناء ٦  أكتوبر"
-//             },
-//             {
-//               "id": 4,
-//               "name": "فرنيتشر مول"
-//             },
-//             {
-//               "id": 5,
-//               "name": "هايبر وان"
-//             },
-//             {
-//               "id": 6,
-//               "name": "الدائري"
-//             },
-//             {
-//               "id": 2,
-//               "name": "ط العين السخنة"
-//             },
-//             {
-//               "id": 4,
-//               "name": "العاصمة"
-//             }
-//           ]
-//         },
-//         {
-//           "id": 3,
-//           "routeName": "الشيخ زايد",
-//           "busStops": [
-//             {
-//               "id": 1,
-//               "name": "موقف هايبر"
-//             },
-//             {
-//               "id": 2,
-//               "name": "ميدان جهينة"
-//             },
-//             {
-//               "id": 3,
-//               "name": "مول مصر"
-//             },
-//             {
-//               "id": 4,
-//               "name": "سوق الجملة"
-//             },
-//             {
-//               "id": 5,
-//               "name": "جولف دريم"
-//             },
-//             {
-//               "id": 6,
-//               "name": "الفردوس"
-//             },
-//             {
-//               "id": 7,
-//               "name": "حدائق أكتوبر"
-//             },
-//             {
-//               "id": 8,
-//               "name": "المنصورية"
-//             },
-//             {
-//               "id": 9,
-//               "name": "الدائري"
-//             },
-//             {
-//               "id": 10,
-//               "name": "طريق السويس"
-//             },
-//             {
-//               "id": 11,
-//               "name": "الدائري الإقليمي"
-//             },
-//             {
-//               "id": 12,
-//               "name": "العاصمة"
-//             }
-//           ]
-//         },
-//         {
-//           "id": 4,
-//           "routeName": "الجيزة",
-//           "busStops": [
-//             {
-//               "id": 1,
-//               "name": "ميدان الجيزة"
-//             },
-//             {
-//               "id": 2,
-//               "name": "جامعة القاهرة"
-//             },
-//             {
-//               "id": 3,
-//               "name": "القصر العيني"
-//             },
-//             {
-//               "id": 4,
-//               "name": "مجري العيون"
-//             },
-//             {
-//               "id": 5,
-//               "name": "طريق النصر"
-//             },
-//             {
-//               "id": 6,
-//               "name": "النادي الاهلي"
-//             },
-//             {
-//               "id": 7,
-//               "name": "كيلو ٤.٥"
-//             },
-//             {
-//               "id": 8,
-//               "name": "طريق السويس"
-//             },
-//             {
-//               "id": 9,
-//               "name": "العاصمة"
-//             }
-//           ]
-//         },
-//         {
-//           "id": 5,
-//           "routeName": "العمرانية",
-//           "busStops": [
-//             {
-//               "id": 1,
-//               "name": "نفق الهرم"
-//             },
-//             {
-//               "id": 2,
-//               "name": "كوبري الجامعة"
-//             },
-//             {
-//               "id": 3,
-//               "name": "القصر العيني"
-//             },
-//             {
-//               "id": 4,
-//               "name": "مجري العيون"
-//             },
-//             {
-//               "id": 5,
-//               "name": "الدويقة"
-//             },
-//             {
-//               "id": 6,
-//               "name": "نادي السكة"
-//             },
-//             {
-//               "id": 7,
-//               "name": "طريق السويس"
-//             },
-//             {
-//               "id": 8,
-//               "name": "كيلو ٤٠٥"
-//             },
-//             {
-//               "id": 9,
-//               "name": "العاصمة"
-//             }
-//           ]
-//         },
-//         {
-//           "id": 6,
-//           "routeName": "الدقي",
-//           "busStops": [
-//             {
-//               "id": 1,
-//               "name": "محطة مقار"
-//             },
-//             {
-//               "id": 2,
-//               "name": "شارع التحرير"
-//             },
-//             {
-//               "id": 3,
-//               "name": "م . عبد المنعم رياض"
-//             },
-//             {
-//               "id": 4,
-//               "name": "شارع رمسيس"
-//             },
-//             {
-//               "id": 5,
-//               "name": "غمرة"
-//             },
-//             {
-//               "id": 6,
-//               "name": "العباسية"
-//             },
-//             {
-//               "id": 7,
-//               "name": "امتداد رمسيس"
-//             },
-//             {
-//               "id": 8,
-//               "name": "طريق النصر"
-//             },
-//             {
-//               "id": 9,
-//               "name": "النادي الاهلي"
-//             },
-//             {
-//               "id": 10,
-//               "name": "كيلو ٤٠٥"
-//             },
-//             {
-//               "id": 11,
-//               "name": "طريق السويس"
-//             },
-//             {
-//               "id": 12,
-//               "name": "العاصمة"
-//             }
-//           ]
-//         },
-//         {
-//           "id": 7,
-//           "routeName": "الزمالك",
-//           "busStops": [
-//             {
-//               "id": 1,
-//               "name": "أحمد عرابي"
-//             },
-//             {
-//               "id": 2,
-//               "name": "ميدان سفنكس"
-//             },
-//             {
-//               "id": 3,
-//               "name": "شارع ٢٦ يوليو"
-//             },
-//             {
-//               "id": 4,
-//               "name": "م . عبد المنعم رياض"
-//             },
-//             {
-//               "id": 5,
-//               "name": "شارع رمسيس"
-//             },
-//             {
-//               "id": 6,
-//               "name": "غمرة"
-//             },
-//             {
-//               "id": 7,
-//               "name": "العباسية"
-//             },
-//             {
-//               "id": 8,
-//               "name": "امتداد رمسيس"
-//             },
-//             {
-//               "id": 9,
-//               "name": "طريق النصر"
-//             },
-//             {
-//               "id": 10,
-//               "name": "النادي الاهلي"
-//             },
-//             {
-//               "id": 11,
-//               "name": "كيلو ٤٠٥"
-//             },
-//             {
-//               "id": 12,
-//               "name": "التسعين الشمالي"
-//             },
-//             {
-//               "id": 13,
-//               "name": "الدائري الأوسطي"
-//             },
-//             {
-//               "id": 14,
-//               "name": "العاصمة"
-//             }
-//           ]
-//         }
-//       ]
-//     },
-//     {
-//       "id": 2,
-//       "name": "البريق للنقل",
-//       "logo": null,
-//       "contacts": [
-//         {
-//           "id": 1,
-//           "name": "أ/إبراهيم محمد",
-//           "phone": "0121999978"
-//         }
-//       ],
-//       "busRoutes": [
-
-// 			]
-//     }
-//   ]
-// }
-
-
 const CompaniesList = () => {
-	const [data, setData] = React.useState(null);
+	const [data, setData] = useState(null);
 
 	React.useEffect(() => {
 		setData(companiesList);
 	}, []);
+
+	const [selectedStops, setSelectedStops] = useState([]);
+	const [selectedFilterCompany, setSelectedFilterCompany] = useState(null);
+	const [searchItems, setSearchItems] = useState([]);
+	const [searchText, setSearchText] = useState("");
+	const [focus, setFocus] = useState(false);
+	const [dropdownVisible, setDropdownVisible] = useState(false);
+	const dropdownRef = useRef(null);
+	const [dropdownLayout, setDropdownLayout] = useState({ x: 0, y: 0, width: 0, height: 0 });
+
+	const searchList = (text) => {
+		if (text.length > 0) {
+			let temp = [];
+			companiesList?.transportationCompanies.map((company) => {
+				company.busRoutes.map((route) => {
+					route.busStops.map((stop) => {
+						if (stop.name.includes(text) && !selectedStops.some((item) => item === stop.name) && !temp.some((item) => item === stop.name)) {
+							temp.push(stop.name);
+						}
+					});
+				});
+			});
+
+			setSearchItems(temp);
+		} else {
+			setSearchItems([]);
+		}
+	}
+
+	const updateCompaniesList = () => {
+		if (selectedStops.length > 0 ? true : false) {
+			let filteredCompanies = [];
+			companiesList?.transportationCompanies.forEach((company) => {
+				let newCompany = { ...company, busRoutes: [] };
+				company.busRoutes.forEach((route) => {
+					if (selectedStops.every((selectedStop) =>
+						route.busStops.some((stop) => selectedStop === stop.name))) {
+						newCompany.busRoutes.push(route);
+					}
+				});
+				if (newCompany.busRoutes.length > 0) {
+					filteredCompanies.push(newCompany);
+				}
+			});
+
+			if (selectedFilterCompany) filteredCompanies = filteredCompanies.filter((company) => company.name === selectedFilterCompany);
+
+
+			setData({ transportationCompanies: filteredCompanies });
+		} else {
+			setData(selectedFilterCompany ?
+				{ transportationCompanies: companiesList.transportationCompanies.filter((company) => company.name === selectedFilterCompany) }
+				: companiesList);
+		}
+	}
+
+	useEffect(() => {
+		updateCompaniesList();
+		dropdownRef.current?.measure((x, y, width, height, pageX, pageY) => {
+			setDropdownLayout({ x: pageX, y: pageY, width, height });
+		});
+
+	}, [selectedStops, selectedFilterCompany]);
 
 	return (
 		<View style={{
@@ -383,13 +96,14 @@ const CompaniesList = () => {
 			</View>
 
 			{/* SearchBar */}
-
 			<View style={{
 				flexDirection: "row-reverse",
 				alignItems: "center",
 				justifyContent: "space-between",
-				marginBottom: 10
+				marginBottom: 10,
+				zIndex: 100,
 			}}>
+
 				<View style={{
 					flexDirection: "row",
 					alignItems: "center",
@@ -400,54 +114,269 @@ const CompaniesList = () => {
 					flex: 1,
 					marginLeft: 10
 				}}>
-					<TextInput placeholder=" ابحث عن خط او محطة ..." style={{
-						flex: 1,
-						fontSize: 16,
-						fontFamily: 'Almarai-Light',
-						textAlign: "right"
-					}}
-						onChange={(text) => {
-							console.log(text);
-						}}
-					/>
+					<View style={{ flex: 1 }}>
+						<ScrollView>
+							<TextInput
+
+								placeholder={selectedStops.length > 0 ?
+									"ابحث عن محطة اخرى ..."
+									: "ابحث عن محطة ..."}
+								style={{
+									fontSize: 16,
+									fontFamily: 'Almarai-Light',
+									textAlign: "right",
+									flex: 1,
+									marginVertical: selectedStops.length > 0 ? 10 : 0
+								}}
+								onChangeText={(text) => {
+									setSearchText(text);
+									searchList(text)
+								}}
+								value={searchText}
+								// onBlur={() => setFocus(false)}
+								onFocus={() => setFocus(true)}
+							/>
+							{selectedStops.length > 0 &&
+								<View style={{
+									flexDirection: "row-reverse",
+									flexWrap: "wrap",
+									marginTop: 5
+								}}>
+									{selectedStops.map((stop, index) => {
+										return (
+											<TouchableOpacity key={index}
+												onPress={() => {
+													setSelectedStops(selectedStops.filter((item) => item !== stop));
+												}}
+												style={{
+													backgroundColor: "#fff",
+													borderRadius: 10,
+													paddingHorizontal: 10,
+													paddingVertical: 5,
+													marginRight: 5,
+													marginBottom: 5,
+													flexDirection: "row-reverse",
+												}}>
+												<Text style={{ fontSize: 14, fontFamily: 'Almarai-Light' }}>{stop}</Text>
+												<AntDesign name="close" size={14} color="#656c9e" style={{ marginVertical: 5, marginRight: 10 }} />
+											</TouchableOpacity>
+										);
+									})}
+								</View>
+							}
+						</ScrollView>
+					</View>
+
 					<AntDesign name="search1" size={24} color="#656c9e" style={{ marginVertical: 5, marginLeft: 10 }} />
 				</View>
 				<TouchableOpacity style={{
 					backgroundColor: "#f6f6f6",
 					borderRadius: 10,
-					padding: 10
+					padding: 10,
+					alignSelf: "flex-start",
 				}}
 					onPress={() => {
-						console.log("Search Button Pressed");
+						updateCompaniesList()
 					}}
 				>
 					<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light' }}>بحث</Text>
 				</TouchableOpacity>
-
-				{/* Selection List */}
+				{searchItems.length > 0 && focus &&
+					<View
+						style={{
+							position: "absolute",
+							top: 50,
+							right: 0,
+							left: 0,
+							backgroundColor: "#fff",
+							borderRadius: 10,
+							padding: 10,
+							shadowColor: "#000",
+							shadowOffset: {
+								width: 0,
+								height: 2
+							},
+							shadowOpacity: 0.25,
+							shadowRadius: 3.84,
+							elevation: 5,
+							zIndex: 100,
+							maxHeight: 300,
+						}}>
+						<ScrollView>
+							{searchItems.map((result, index) => {
+								return (
+									<TouchableOpacity key={index} style={{
+										flexDirection: "row-reverse",
+										alignItems: "center",
+										justifyContent: "space-between",
+										backgroundColor: "#f6f6f6",
+										borderRadius: 10,
+										paddingHorizontal: 10,
+										paddingVertical: 5,
+										marginBottom: index == searchItems.length - 1 ? 0 : 10
+									}}
+										onPress={() => {
+											setSelectedStops([...selectedStops, result]);
+											setSearchText("");
+											setSearchItems([]);
+										}}
+									>
+										<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light' }}>{result}</Text>
+										<AntDesign name="plus" size={18} color="#656c9e" style={{ marginVertical: 5, marginLeft: 10 }} />
+									</TouchableOpacity>
+								);
+							})}
+						</ScrollView>
+					</View>
+				}
 			</View>
+
 
 			<View style={{
 				flexDirection: "row-reverse",
 				alignItems: "center",
 				justifyContent: "space-between",
-				backgroundColor: "#f6f6f6",
-				borderRadius: 10,
-				paddingHorizontal: 10,
-				paddingVertical: 5,
-				marginBottom: 10
+				marginVertical: 10,
+				zIndex: 80,
+
 			}}>
-				<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light' }}>الشركات</Text>
-				<AntDesign name="down" size={18} color="#656c9e" style={{ marginVertical: 5, marginLeft: 10 }} />
+				<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light' }}>
+					تصفية حسب الشركة
+				</Text>
+
+				<TouchableOpacity style={{
+					flexDirection: "row-reverse",
+					alignItems: "center",
+					justifyContent: "space-between",
+					backgroundColor: "#f6f6f6",
+					borderRadius: 10,
+					paddingHorizontal: 15,
+					paddingVertical: 5,
+					marginBottom: 10
+				}}
+					onPress={() => setDropdownVisible(true)}
+
+					ref={dropdownRef}
+					onLayout={() => {
+						dropdownRef.current.measure((x, y, width, height, pageX, pageY) => {
+							setDropdownLayout({ x: pageX, y: pageY, width, height });
+						});
+					}}
+				>
+					<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light', marginLeft: 25 }}>
+						{selectedFilterCompany ? selectedFilterCompany : "جميع الشركات"}
+					</Text>
+					<AntDesign name="down" size={18} color="#656c9e" style={{
+						marginVertical: 5,
+						transform: [{ rotate: !dropdownVisible ? '0deg' : '-180deg' }]
+					}} />
+				</TouchableOpacity>
+
+
+				{dropdownLayout && (
+					<Modal
+						animationType="fade"
+						transparent={true}
+						visible={dropdownVisible}
+						onRequestClose={() => {
+							setDropdownVisible(false);
+						}}
+					>
+						<TouchableOpacity
+							style={{
+								flex: 1,
+								justifyContent: 'center',
+								alignItems: 'center',
+								// backgroundColor: 'rgba(0,0,0,0.5)',
+							}}
+							onPress={() => setDropdownVisible(false)}
+						>
+							<View style={{
+								position: 'absolute',
+								backgroundColor: "#fff",
+								minWidth: 160,
+								borderRadius: 10,
+								padding: 10,
+								shadowColor: "#000",
+								shadowOffset: {
+									width: 0,
+									height: 2
+								},
+								shadowOpacity: 0.25,
+								shadowRadius: 3.84,
+								elevation: 5,
+								zIndex: 100,
+								maxHeight: 300,
+								top: dropdownLayout.y + dropdownLayout.height - 40,
+								left: dropdownLayout.x,
+							}}>
+								<ScrollView>
+
+									<TouchableOpacity
+										style={{
+											flexDirection: "row-reverse",
+											alignItems: "center",
+											justifyContent: "space-between",
+											backgroundColor: "#f6f6f6",
+											borderRadius: 10,
+											paddingHorizontal: 10,
+											paddingVertical: 5,
+											marginBottom: 10
+										}}
+										onPress={() => {
+											setSelectedFilterCompany(null);
+											setDropdownVisible(false);
+										}}
+									>
+										<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light' }}>جميع الشركات</Text>
+									</TouchableOpacity>
+
+									{companiesList?.transportationCompanies.map((company, index) => {
+										return (
+											<TouchableOpacity key={index} style={{
+												flexDirection: "row-reverse",
+												alignItems: "center",
+												justifyContent: "space-between",
+												backgroundColor: "#f6f6f6",
+												borderRadius: 10,
+												paddingHorizontal: 10,
+												paddingVertical: 5,
+												marginBottom: index == companiesList?.transportationCompanies.length - 1 ? 0 : 10
+											}}
+												onPress={() => {
+													setSelectedFilterCompany(company.name);
+													setDropdownVisible(false);
+												}}
+											>
+												<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light' }}>{company.name}</Text>
+											</TouchableOpacity>
+										);
+									})}
+
+								</ScrollView>
+							</View>
+						</TouchableOpacity>
+					</Modal>
+				)}
 			</View>
 
+			{data?.transportationCompanies.length > 0 ?
+				<FlatList data={data?.transportationCompanies}
+					renderItem={({ item, index }) => <CompanyCard company={item} index={index} isSearch={selectedStops.length > 0 ? true : false} />}
+					keyExtractor={(item, index) => index.toString()}
+				/>
+				:
+				<View style={{
+					flex: 1,
+					alignItems: "center",
+					marginTop: 130
+				}}>
+					<AntDesign name="frowno" size={50} color="#656c9e" />
+					<Text style={{ fontSize: 16, fontFamily: 'Almarai-Light', textAlign: "center", marginTop: 20 }}>لا توجد نتائج</Text>
+					<Text style={{ fontSize: 14, fontFamily: 'Almarai-Light', textAlign: "center", marginTop: 10, marginHorizontal: 30 }}>جرب تغيير الشركة اذا كانت محددة او البحث عن محطة اخرى.</Text>
+				</View>
 
-
-			{/* Companies List */}
-			<FlatList data={data?.transportationCompanies}
-				renderItem={({ item, index }) => <CompanyCard company={item} index={index} />}
-				keyExtractor={(item, index) => index.toString()}
-			/>
+			}
 		</View>
 	);
 }

@@ -51,6 +51,11 @@ const RouteDetails = ({ route }) => {
 						borderRadius: 15,
 						backgroundColor: '#f5f5f5',
 					}} resizeMode="contain" />
+
+				<Octicons name="organization" color="#656c9e"
+					size={43}
+					style={{ marginVertical: 18, position: 'absolute', }}
+				/>
 				<View style={{ marginVertical: 10 }}>
 					<Text style={{ fontSize: 24, fontFamily: 'Almarai-Bold' }}>{companyDetails.name}</Text>
 				</View>

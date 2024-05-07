@@ -10,6 +10,11 @@ export default CompanyCard = props => {
 	const [collapsed, setCollapsed] = useState(true);
 	const navigation = useNavigation();
 
+	useEffect(() => {
+		setCollapsed(isSearch ? false : true);
+	}, [isSearch])
+
+
 
 	useEffect(() => {
 		if (isSearch) {
@@ -41,21 +46,25 @@ export default CompanyCard = props => {
 					alignItems: "center",
 				}}>
 					<Image source={{ uri: company.logo }} style={{
-						width: 60, height: 60, backgroundColor: 'red', borderRadius: 20,
+						width: isSearch ? 40 : 60, height: isSearch ? 40 : 60, backgroundColor: 'white', borderRadius: isSearch ? 15 : 20,
 					}} resizeMode="contain" />
+					<Octicons name="organization" size={isSearch ? 20 : 30} color="#656c9e"
+						style={{ marginHorizontal: isSearch ? 10 : 15, position: 'absolute', }}
+					/>
 					<View style={{
 						marginHorizontal: 10,
-
 					}}>
 						<Text style={{ fontSize: 20, fontFamily: 'Almarai-Bold' }}>{company.name}</Text>
-						{company.contacts.map((contact, index) => {
-							return index < 2 ? (
-								<Text key={index} style={{ marginHorizontal: 7, fontSize: 14, fontFamily: 'Almarai-Light' }}>{contact.name} - {contact.phone}</Text>
-							) : null;
-						})}
-						{
-							company.contacts.length > 2 ? <Text style={{ marginHorizontal: 7, fontSize: 14, fontFamily: 'Almarai-Light' }}>{' '}و{' '}{company.contacts.length - 2} اخرين</Text> : null
-						}
+						{!isSearch &&
+							<View>
+								{company.contacts.map((contact, index) => {
+									return index < 2 ? (
+										<Text key={index} style={{ marginHorizontal: 7, fontSize: 14, fontFamily: 'Almarai-Light' }}>{contact.name} - {contact.phone}</Text>
+									) : null;
+								})}
+								{
+									company.contacts.length > 2 ? <Text style={{ marginHorizontal: 7, fontSize: 14, fontFamily: 'Almarai-Light' }}>{' '}و{' '}{company.contacts.length - 2} اخرين</Text> : null
+								}</View>}
 					</View>
 				</View>
 				<Entypo name="chevron-thin-down" size={20} color="#656c9e" style={{
