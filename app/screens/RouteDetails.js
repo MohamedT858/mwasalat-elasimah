@@ -15,9 +15,10 @@ const RouteDetails = ({ route }) => {
 	const [contactsCollapsed, setContactsCollapsed] = React.useState(true);
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
+		// <SafeAreaView style={{ flex: 1 }}>
 			<View style={{
 				paddingHorizontal: 20,
+				paddingTop: 55,
 				flex: 1,
 				backgroundColor: "#fff",
 			}}>
@@ -179,7 +180,7 @@ const RouteDetails = ({ route }) => {
 					keyExtractor={item => item.id}
 				/>
 			</View>
-		</SafeAreaView>
+		// </SafeAreaView>
 	);
 }
 

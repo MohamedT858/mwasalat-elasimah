@@ -2,15 +2,15 @@ import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import data from "../data/home.json"
 import { LinearGradient } from 'expo-linear-gradient';
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
+		// <SafeAreaView style={{ flex: 1 }}>
 			<ScrollView style={{
 				backgroundColor: "white",
 				paddingHorizontal: 10,
+				marginTop: 60,
 				marginBottom: 60,
 			}}>
 
@@ -111,7 +111,7 @@ const Home = () => {
 					}
 				})}
 			</ScrollView>
-		</SafeAreaView>
+		// </SafeAreaView>
 	);
 }
 
